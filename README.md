@@ -2,7 +2,7 @@
 
 # NAME
 
-WWW::vlc::Remote
+WWW::vlc::Remote — Control vlc media player via its Web interface
 
 # SYNOPSIS
 
