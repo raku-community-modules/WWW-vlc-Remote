@@ -30,7 +30,7 @@ class Track {
     has UInt:D $.id       is required;
     has Int:D  $.duration is required;
     method play(--> WWW::vlc::Remote:D) { $!vlc.play: $!id }
-    method Str  {
+    method Str(--> Str:D)  {
         my $id = "#$!id";
         $id [R~]= ' ' x 5 - $id.chars;
         if $!duration ≤ 0 {
@@ -42,7 +42,7 @@ class Track {
             "$id $!name ({$m}m{$s}s)"
         }
     }
-    method gist { self.Str }
+    method gist(--> Str:D) { self.Str }
 }
 
 method !path(Str:D $path) { $!url ~ $path }

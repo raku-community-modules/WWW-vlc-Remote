@@ -43,8 +43,148 @@ Along with `--http-password` you can set `--http-port` to adjust which port
 `vlc` will listen on (defaults to `8080`). See `vlc --help --advanced` for more
 options.
 
-# METHODS
+# `WWW::vlc::Remote` class
 
+## METHODS
+
+### `.new`
+
+```perl6
+submethod BUILD (
+    Str    :$pass = 'pass',
+    Str:D  :$host = 'http://127.0.0.1',
+    UInt:D :$port = 8080,
+)
+```
+
+Constructs and returns a new `WWW::vlc::Remote` object. Takes three named
+arguments, all optional: the password for the vlc Web interface (that's
+the value you specified to `--http-password`), as well as the host and the port
+vlc is listening on.
+
+
+### `.playlist`
+
+```perl6
+method playlist(Bool :$skip-meta --> Seq:D)
+```
+
+Returns a `Seq` of `WWW::vlc::Remote::Track` objects representing the
+currently loaded play list. Some of the potential items on the playlist
+aren't tracks but could be folders or artwork. Those are known as "meta" files
+and setting `:$skip-meta` to true will skip those items.
+
+Some "meta" files, such as directories on the playlist may contain more playable
+files, however they need to be expanded for `.playlist` to see them. You can
+expand them by giving their IDs or `WWW::vlc::Remote::Track` objects to
+`WWW::vlc::Remote.play` method (or calling `.play` on that
+`WWW::vlc::Remote::Track` object directly)
+
+*Note:* currently what is and isn't a "meta" file is decided by whether
+duration is a positive number. I don't know if that causes flagging of some
+playable type of media as meta files.
+
+### `.play`
+
+
+```perl6
+multi method play (WWW::vlc::Remote::Track:D $track --> WWW::vlc::Remote::Track:D)
+multi method play (UInt:D $id --> WWW::vlc::Remote::Track:D)
+```
+
+Takes either a `WWW::vlc::Remote::Track` instance (obtainable from
+`.playlist` method) or an `Int` numeric ID of the playlist track to play.
+Causes vlc to immediately start playing that track. Returns the invocant.
+
+
+### `.stop`
+
+```perl6
+method stop(--> WWW::vlc::Remote::Track:D)
+```
+
+Takes no arguments. Causes vlc to stop playing. Returns the invocant.
+
+# `WWW::vlc::Remote::Track` class
+
+This class isn't meant to be instantiatable directly and instead is returned
+from by some `WWW::vlc::Remote` methods, such as `.playlist`.
+
+## ATTRIBUTES
+
+### `$.vlc`
+
+```perl6
+has WWW::vlc::Remote:D $.vlc
+```
+
+The `WWW::vlc::Remote` object that created this `WWW::vlc::Remote::Track`
+object.
+
+### `$.uri`
+
+```perl6
+has Str:D $.uri
+```
+
+The URI of this track.
+
+### `$.name`
+
+```perl6
+has Str:D $.name
+```
+
+The name of this track.
+
+### `$.id`
+
+```perl6
+has UInt:D $.id
+```
+
+The ID of this track. This is the ID desired by some `WWW::vlc::Remote`
+methods, such as `.play`.
+
+### `$.id`
+
+```perl6
+has Int:D $.duration
+```
+
+The duration of this track, in seconds. Can be zero or even negative if this
+track isn't a proper playable item, such as a directory or artwork.
+
+## METHODS
+
+### `.play`
+
+```perl6
+method play(--> WWW::vlc::Remote:D)
+```
+
+Takes no arguments and causes vlc to play this track. The same as calling
+`WWW::vlc::Remote.play` with the ID of this track. Returns the
+`WWW::vlc::Remote` object that created this `WWW::vlc::Remote::Track` object.
+
+### `.Str`
+
+```perl6
+method Str (--> Str:D)
+```
+
+Returns a string in the form of `"$id $name ($dur)"` where `$id` is the track's
+`$.id`, `$name` is `$.name`, and `$dur` is a string in the form of `2m45s`
+calculated from the track's `$.duration` (no hours, only minutes and seconds).
+If `$.duration` is zero or negative, `$dur` is set to string `N/A`.
+
+### `.gist`
+
+```perl6
+method gist (--> Str:D)
+```
+
+Calls `.Str` on the invocant and returns the result.
 
 ----
 
