@@ -1,7 +1,15 @@
 use lib <lib>;
 use WWW::vlc::Remote;
 
-my $vlc := WWW::vlc::Remote.new: :pass<pass>, :8080port;
+my $vlc := WWW::vlc::Remote.new: :9090port;
+say "Available songs are:";
+.say for $vlc.playlist: :skip-meta;
 
-say "Available songs are: ";
-.say for $vlc.playlist;
+my UInt:D $song := val prompt "\nEnter an ID of song to play: ";
+with $vlc.playlist.first: *.id == $song {
+    say "Playing $_";
+    .play
+}
+else {
+    say "Did not find any songs with ID `$song`";
+}

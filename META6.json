@@ -7,7 +7,10 @@
     "depends"      : [ "DOM::Tiny", "HTTP::UserAgent" ],
     "test-depends" : [ "Test" ],
     "provides"     : {
-        "WWW::vlc::Remote": "lib/WWW/vlc/Remote.pm6"
+        "WWW::vlc::Remote"             : "lib/WWW/vlc/Remote.pm6",
+        "WWW::vlc::Remote::X"          : "lib/WWW/vlc/Remote.pm6",
+        "WWW::vlc::Remote::X::Network" : "lib/WWW/vlc/Remote.pm6",
+        "WWW::vlc::Remote::Track"      : "lib/WWW/vlc/Remote.pm6"
     },
     "authors"      : [ "Zoffix Znet" ],
     "source-url"   :
