@@ -51,6 +51,9 @@ method !command(Str:D \c) { self!path: '/requests/status.xml?command=' ~ c }
 method !com-self(Str:D \c --> ::?CLASS:D) {
     my $res := $!ua.get: self!command: c;
     $res.is-success or fail X::Network.new: :$res;
+    my $dom := DOM::Tiny.parse: $res.content;
+    fail X.new: error => $dom.at('h1').all-text ~ "\n" ~ $dom.at('pre').all-text
+        if $dom.at('title').all-text andthen .starts-with: 'Error loading';
     self
 }
 
@@ -59,6 +62,8 @@ method playlist(Bool :$skip-meta --> Seq:D) {
     $res.is-success or fail X::Network.new: :$res;
     my $dom := DOM::Tiny.parse($res.content).at: 'node[name="Playlist"]'
         or fail X.new: error => 'Could not find playlist node';
+    fail X.new: error => $dom.at('h1').all-text ~ "\n" ~ $dom.at('pre').all-text
+        if $dom.at('title').all-text andthen .starts-with: 'Error loading';
 
     my $leafs := $dom.find: 'leaf';
     $skip-meta and $leafs := $leafs.grep: *.<duration> > 0;
@@ -78,7 +83,7 @@ multi method play ( UInt:D \id    --> ::?CLASS:D) {
 multi method next (--> ::?CLASS:D) { self!com-self: 'pl_next'     }
 multi method prev (--> ::?CLASS:D) { self!com-self: 'pl_previous' }
 
-method seek (Str:D \v = '0%' --> ::?CLASS:D) {
+method seek (\v where Str:D|Numeric:D = '0%' --> ::?CLASS:D) {
     self!com-self: 'seek&val=' ~ uri_encode_component v
 }
 
@@ -86,6 +91,10 @@ method toggle-random (--> ::?CLASS:D) { self!com-self: 'pl_random' }
 method toggle-loop   (--> ::?CLASS:D) { self!com-self: 'pl_loop'   }
 method toggle-repeat (--> ::?CLASS:D) { self!com-self: 'pl_repeat' }
 method toggle-fullscreen (--> ::?CLASS:D) { self!com-self: 'fullscreen' }
-method toggle-service-discovery (\v --> ::?CLASS:D) {
+method toggle-service-discovery (Str:D \v --> ::?CLASS:D) {
     self!com-self: 'pl_sd&val=' ~ v
+}
+
+method volume (Str:D \v where Str:D|Numeric:D --> ::?CLASS:D) {
+    self!com-self: 'volume&val=' ~ uri_encode_component v
 }

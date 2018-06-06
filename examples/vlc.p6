@@ -24,4 +24,6 @@ multi MAIN('next') { $vlc.next }
 #|(play previous track)
 multi MAIN('prev') { $vlc.prev }
 #|(seek to a value)
-multi MAIN('seek', Str:D $val) { $vlc.seek: $val }
+multi MAIN('seek', $val) { $vlc.seek: $val }
+#|(set volume)
+multi MAIN('vol', $val) { $vlc.volume: $val }

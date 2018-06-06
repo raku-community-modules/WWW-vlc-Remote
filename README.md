@@ -103,7 +103,7 @@ playlist item will be played (e.g. can be used after using `.stop`).
 ### `.seek`
 
 ```perl6
-method seek (Str:D $val = '0%' --> ::?CLASS:D)
+method seek ($val where Str:D|Numeric:D = '0%' --> ::?CLASS:D)
 ```
 
 Seeks the current track based on the given `$val`. Per
@@ -179,6 +179,22 @@ The `$val` argument is the service, which per
    podcast
    hal
 ```
+
+### `.volume`
+
+```perl6
+method volume($val where Str:D|Numeric:D --> ::?CLASS:D)
+```
+
+Sets the volume based on the `$val`. Per
+[vlc's wiki](https://wiki.videolan.org/VLC_HTTP_requests/):
+
+```
+ Allowed values are of the form:
+   +<int>, -<int>, <int> or <int>%
+```
+
+**Note:** during my testing, the `%` values did not work.
 
 # `WWW::vlc::Remote::Track` class
 
