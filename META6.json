@@ -4,7 +4,7 @@
     "license"      : "Artistic-2.0",
     "version"      : "1.001006",
     "description"  : "Control vlc media player via its Web interface",
-    "depends"      : [ "DOM::Tiny", "HTTP::UserAgent" ],
+    "depends"      : [ "DOM::Tiny", "HTTP::UserAgent", "URI::Encode" ],
     "test-depends" : [ "Test" ],
     "provides"     : {
         "WWW::vlc::Remote"             : "lib/WWW/vlc/Remote.pm6",

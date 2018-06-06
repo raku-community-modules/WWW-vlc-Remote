@@ -1,6 +1,7 @@
 unit class WWW::vlc::Remote;
-use HTTP::UserAgent;
 use DOM::Tiny;
+use HTTP::UserAgent;
+use URI::Encode;
 
 has HTTP::UserAgent:D $!ua  is required;
 has Str:D             $!url is required;
@@ -45,8 +46,13 @@ class Track {
     method gist(--> Str:D) { self.Str }
 }
 
-method !path(Str:D $path) { $!url ~ $path }
-method !command(Str:D $c) { self!path: '/requests/status.xml?command=' ~ $c }
+method !path(Str:D \p) { $!url ~ p }
+method !command(Str:D \c) { self!path: '/requests/status.xml?command=' ~ c }
+method !com-self(Str:D \c --> ::?CLASS:D) {
+    my $res := $!ua.get: self!command: c;
+    $res.is-success or fail X::Network.new: :$res;
+    self
+}
 
 method playlist(Bool :$skip-meta --> Seq:D) {
     my $res := $!ua.get: self!path: '/requests/playlist.xml';
@@ -62,15 +68,16 @@ method playlist(Bool :$skip-meta --> Seq:D) {
     }
 }
 
-multi method play (Track:D $track --> ::?CLASS:D) { self.play: $track.id }
-multi method play ( UInt:D $id    --> ::?CLASS:D) {
-    my $res := $!ua.get: self!command: 'pl_play&id=' ~ $id;
-    $res.is-success or fail X::Network.new: :$res;
-    self
+multi method play (               --> ::?CLASS:D) { self!com-self: 'pl_play' }
+multi method play (Track:D \track --> ::?CLASS:D) { self.play: track.id      }
+multi method play ( UInt:D \id    --> ::?CLASS:D) {
+    self!com-self: 'pl_play&id=' ~ id
 }
 
-method stop(--> ::?CLASS:D) {
-    my $res := $!ua.get: self!command: 'pl_stop';
-    $res.is-success or fail X::Network.new: :$res;
-    self
+      method stop (--> ::?CLASS:D) { self!com-self: 'pl_stop'     }
+multi method next (--> ::?CLASS:D) { self!com-self: 'pl_next'     }
+multi method prev (--> ::?CLASS:D) { self!com-self: 'pl_previous' }
+
+method seek (\v = '0%' --> ::?CLASS:D) {
+    self!com-self: 'seek&val=' ~ uri_encode_component v
 }

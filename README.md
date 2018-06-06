@@ -28,7 +28,7 @@ else {
 
 Provides programmatic interface to
 [VLC Media player](https://www.videolan.org/vlc/index.html) using its
-Web remote.
+[Web remote interface](https://wiki.videolan.org/VLC_HTTP_requests/).
 
 # ENABLE THE REMOTE
 
@@ -88,6 +88,7 @@ playable type of media as meta files.
 
 
 ```perl6
+multi method play (--> WWW::vlc::Remote::Track:D)
 multi method play (WWW::vlc::Remote::Track:D $track --> WWW::vlc::Remote::Track:D)
 multi method play (UInt:D $id --> WWW::vlc::Remote::Track:D)
 ```
@@ -96,6 +97,30 @@ Takes either a `WWW::vlc::Remote::Track` instance (obtainable from
 `.playlist` method) or an `Int` numeric ID of the playlist track to play.
 Causes vlc to immediately start playing that track. Returns the invocant.
 
+Can be called without any arguments, in which case the currently active
+playlist item will be played (e.g. can be used after using `.stop`).
+
+### `.seek`
+
+```perl6
+method seek ($val = '0%' --> ::?CLASS:D)
+```
+
+Seeks the current track based on the given `$val`. Per
+[vlc's wiki](https://wiki.videolan.org/VLC_HTTP_requests/):
+
+```
+ Allowed values are of the form:
+   [+ or -][<int><H or h>:][<int><M or m or '>:][<int><nothing or S or s or ">]
+   or [+ or -]<int>%
+   (value between [ ] are optional, value between < > are mandatory)
+ examples:
+   1000 -> seek to the 1000th second
+   +1H:2M -> seek 1 hour and 2 minutes forward
+   -10% -> seek 10% back
+```
+
+Using too-large values (e.g. `+220%`) is perfectly acceptable.
 
 ### `.stop`
 
