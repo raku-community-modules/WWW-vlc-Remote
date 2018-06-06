@@ -6,12 +6,17 @@ WWW::vlc::Remote — Control vlc media player via its Web interface
 
 # TABLE OF CONTENTS
 
+- [TABLE OF CONTENTS](#table-of-contents)
 - [SYNOPSIS](#synopsis)
 - [DESCRIPTION](#description)
 - [ENABLE THE REMOTE](#enable-the-remote)
 - [`WWW::vlc::Remote` class](#wwwvlcremote-class)
     - [METHODS](#methods)
         - [`.new`](#new)
+        - [`.empty`](#empty)
+        - [`.enqueue`](#enqueue)
+        - [`.enqueue-and-play`](#enqueue-and-play)
+        - [`.delete`](#delete)
         - [`.playlist`](#playlist)
         - [`.play`](#play)
         - [`.seek`](#seek)
