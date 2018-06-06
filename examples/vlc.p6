@@ -3,6 +3,8 @@ use WWW::vlc::Remote;
 
 my $vlc := WWW::vlc::Remote.new;
 
+#|(add item to playlist)
+multi MAIN('add', $url) { $vlc.enqueue-and-play: $url }
 #|(Show items on the playlist)
 multi MAIN('pl') {
     say "Available songs are:";

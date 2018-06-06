@@ -57,6 +57,21 @@ method !com-self(Str:D \c --> ::?CLASS:D) {
     self
 }
 
+method empty (--> ::?CLASS:D) { self!com-self: 'pl_empty' }
+method enqueue (Str:D \url --> ::?CLASS:D) {
+    self!com-self: 'in_enqueue&input=' ~ uri_encode_component url
+}
+method enqueue-and-play (Str:D \url --> ::?CLASS:D) {
+    self!com-self: 'in_play&input=' ~ uri_encode_component url
+}
+
+multi method delete (Track:D \track --> ::?CLASS:D) {
+    self.delete: track.id
+}
+multi method delete ( UInt:D \id    --> ::?CLASS:D) {
+    self!com-self: 'pl_delete&id=' ~ uri_encode_component id
+}
+
 method playlist(Bool :$skip-meta --> Seq:D) {
     my $res := $!ua.get: self!path: '/requests/playlist.xml';
     $res.is-success or fail X::Network.new: :$res;
@@ -76,7 +91,7 @@ method playlist(Bool :$skip-meta --> Seq:D) {
 multi method play (               --> ::?CLASS:D) { self!com-self: 'pl_play' }
 multi method play (Track:D \track --> ::?CLASS:D) { self.play: track.id      }
 multi method play ( UInt:D \id    --> ::?CLASS:D) {
-    self!com-self: 'pl_play&id=' ~ id
+    self!com-self: 'pl_play&id=' ~ uri_encode_component id
 }
 
       method stop (--> ::?CLASS:D) { self!com-self: 'pl_stop'     }
@@ -92,7 +107,7 @@ method toggle-loop   (--> ::?CLASS:D) { self!com-self: 'pl_loop'   }
 method toggle-repeat (--> ::?CLASS:D) { self!com-self: 'pl_repeat' }
 method toggle-fullscreen (--> ::?CLASS:D) { self!com-self: 'fullscreen' }
 method toggle-service-discovery (Str:D \v --> ::?CLASS:D) {
-    self!com-self: 'pl_sd&val=' ~ v
+    self!com-self: 'pl_sd&val=' ~ uri_encode_component v
 }
 
 method volume (Str:D \v where Str:D|Numeric:D --> ::?CLASS:D) {

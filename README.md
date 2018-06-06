@@ -4,6 +4,40 @@
 
 WWW::vlc::Remote — Control vlc media player via its Web interface
 
+# TABLE OF CONTENTS
+
+- [SYNOPSIS](#synopsis)
+- [DESCRIPTION](#description)
+- [ENABLE THE REMOTE](#enable-the-remote)
+- [`WWW::vlc::Remote` class](#wwwvlcremote-class)
+    - [METHODS](#methods)
+        - [`.new`](#new)
+        - [`.playlist`](#playlist)
+        - [`.play`](#play)
+        - [`.seek`](#seek)
+        - [`.stop`](#stop)
+        - [`.toggle-random`](#toggle-random)
+        - [`.toggle-loop`](#toggle-loop)
+        - [`.toggle-repeat`](#toggle-repeat)
+        - [`.toggle-fullscreen`](#toggle-fullscreen)
+        - [`.toggle-service-discovery`](#toggle-service-discovery)
+        - [`.volume`](#volume)
+- [`WWW::vlc::Remote::Track` class](#wwwvlcremotetrack-class)
+    - [ATTRIBUTES](#attributes)
+        - [`$.vlc`](#vlc)
+        - [`$.uri`](#uri)
+        - [`$.name`](#name-1)
+        - [`$.id`](#id)
+        - [`$.id`](#id-1)
+    - [METHODS](#methods-1)
+        - [`.play`](#play-1)
+        - [`.Str`](#str)
+        - [`.gist`](#gist)
+- [REPOSITORY](#repository)
+- [BUGS](#bugs)
+- [AUTHOR](#author)
+- [LICENSE](#license)
+
 # SYNOPSIS
 
 ```perl6
@@ -62,6 +96,43 @@ arguments, all optional: the password for the vlc Web interface (that's
 the value you specified to `--http-password`), as well as the host and the port
 vlc is listening on.
 
+### `.empty`
+
+```perl6
+method empty(--> WWW::vlc::Remote:D)
+```
+
+Empty the playlist. Returns the invocant.
+
+### `.enqueue`
+
+```perl6
+method enqueue(Str:D $url --> WWW::vlc::Remote:D)
+```
+
+Add a media item to the playlist. Returns the invocant. The `$url` can be
+a URL to the file on the filesystem or to an online resource.
+
+### `.enqueue-and-play`
+
+```perl6
+method enqueue-and-play(Str:D \url --> WWW::vlc::Remote:D)
+```
+
+Add a media item to the playlist and start playing it. Returns the invocant.
+The `$url` can be a URL to the file on the filesystem or to an online resource.
+
+### `.delete`
+
+
+```perl6
+multi method delete (WWW::vlc::Remote::Track:D $track --> WWW::vlc::Remote::Track:D)
+multi method delete (UInt:D $id --> WWW::vlc::Remote::Track:D)
+```
+
+Delete a track off the playlist. Takes either a `WWW::vlc::Remote::Track`
+instance (obtainable from `.playlist` method) or an `Int` numeric ID of the
+playlist track to delete. Returns the invocant.
 
 ### `.playlist`
 
@@ -85,7 +156,6 @@ duration is a positive number. I don't know if that causes flagging of some
 playable type of media as meta files.
 
 ### `.play`
-
 
 ```perl6
 multi method play (--> WWW::vlc::Remote::Track:D)
