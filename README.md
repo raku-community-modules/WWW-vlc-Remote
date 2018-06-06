@@ -103,7 +103,7 @@ playlist item will be played (e.g. can be used after using `.stop`).
 ### `.seek`
 
 ```perl6
-method seek ($val = '0%' --> ::?CLASS:D)
+method seek (Str:D $val = '0%' --> ::?CLASS:D)
 ```
 
 Seeks the current track based on the given `$val`. Per
@@ -128,7 +128,57 @@ Using too-large values (e.g. `+220%`) is perfectly acceptable.
 method stop(--> WWW::vlc::Remote::Track:D)
 ```
 
-Takes no arguments. Causes vlc to stop playing. Returns the invocant.
+Causes vlc to stop playing. Returns the invocant.
+
+### `.toggle-random`
+
+```perl6
+method toggle-random(--> WWW::vlc::Remote:D)
+```
+
+Toggles random playback. Returns the invocant.
+
+### `.toggle-loop`
+
+```perl6
+method toggle-loop(--> WWW::vlc::Remote:D)
+```
+
+Toggles loop. Returns the invocant.
+
+### `.toggle-repeat`
+
+```perl6
+method toggle-repeat(--> WWW::vlc::Remote:D)
+```
+
+Toggles repeat. Returns the invocant.
+
+### `.toggle-fullscreen`
+
+```perl6
+method toggle-fullscreen(--> WWW::vlc::Remote:D)
+```
+
+Toggles fullscreen. Returns the invocant.
+
+### `.toggle-service-discovery`
+
+```perl6
+method toggle-service-discovery(Str:D $val--> WWW::vlc::Remote:D)
+```
+
+Toggles service discovery. Returns the invocant.
+The `$val` argument is the service, which per
+[vlc's wiki](https://wiki.videolan.org/VLC_HTTP_requests/):
+
+```
+ Typical values are:
+   sap
+   shoutcast
+   podcast
+   hal
+```
 
 # `WWW::vlc::Remote::Track` class
 

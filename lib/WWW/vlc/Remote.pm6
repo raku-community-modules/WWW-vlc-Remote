@@ -78,6 +78,14 @@ multi method play ( UInt:D \id    --> ::?CLASS:D) {
 multi method next (--> ::?CLASS:D) { self!com-self: 'pl_next'     }
 multi method prev (--> ::?CLASS:D) { self!com-self: 'pl_previous' }
 
-method seek (\v = '0%' --> ::?CLASS:D) {
+method seek (Str:D \v = '0%' --> ::?CLASS:D) {
     self!com-self: 'seek&val=' ~ uri_encode_component v
+}
+
+method toggle-random (--> ::?CLASS:D) { self!com-self: 'pl_random' }
+method toggle-loop   (--> ::?CLASS:D) { self!com-self: 'pl_loop'   }
+method toggle-repeat (--> ::?CLASS:D) { self!com-self: 'pl_repeat' }
+method toggle-fullscreen (--> ::?CLASS:D) { self!com-self: 'fullscreen' }
+method toggle-service-discovery (\v --> ::?CLASS:D) {
+    self!com-self: 'pl_sd&val=' ~ v
 }
