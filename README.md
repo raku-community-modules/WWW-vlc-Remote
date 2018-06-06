@@ -63,6 +63,10 @@ else {
 }
 ```
 
+# EXAMPLES
+
+See [`examples/`](examples/) dir for some examples of module's use.
+
 # DESCRIPTION
 
 Provides programmatic interface to
@@ -196,6 +200,15 @@ Seeks the current track based on the given `$val`. Per
 ```
 
 Using too-large values (e.g. `+220%`) is perfectly acceptable.
+
+### `.status`
+
+```perl6
+method status(--> DOM::Tiny:D)
+```
+
+Fetches the XML of a bunch of info of the current status and returns it as
+[`DOM::Tiny` object](https://modules.perl6.org/repo/DOM::Tiny)
 
 ### `.stop`
 

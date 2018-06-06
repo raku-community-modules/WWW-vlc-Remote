@@ -102,6 +102,15 @@ method seek (\v where Str:D|Numeric:D = '0%' --> ::?CLASS:D) {
     self!com-self: 'seek&val=' ~ uri_encode_component v
 }
 
+method status (--> DOM::Tiny:D) {
+    my $res := $!ua.get: self!path: '/requests/status.xml';
+    $res.is-success or fail X::Network.new: :$res;
+    my $dom := DOM::Tiny.parse($res.content);
+    fail X.new: error => $dom.at('h1').all-text ~ "\n" ~ $dom.at('pre').all-text
+        if $dom.at('title').all-text andthen .starts-with: 'Error loading';
+    $dom
+}
+
 method toggle-random (--> ::?CLASS:D) { self!com-self: 'pl_random' }
 method toggle-loop   (--> ::?CLASS:D) { self!com-self: 'pl_loop'   }
 method toggle-repeat (--> ::?CLASS:D) { self!com-self: 'pl_repeat' }

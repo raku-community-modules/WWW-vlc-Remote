@@ -29,3 +29,5 @@ multi MAIN('prev') { $vlc.prev }
 multi MAIN('seek', $val) { $vlc.seek: $val }
 #|(set volume)
 multi MAIN('vol', $val) { $vlc.volume: $val }
+#|(show current status)
+multi MAIN('status') { say ~$vlc.status }
