@@ -6,8 +6,8 @@ WWW::vlc::Remote — Control vlc media player via its Web interface
 
 # TABLE OF CONTENTS
 
-- [TABLE OF CONTENTS](#table-of-contents)
 - [SYNOPSIS](#synopsis)
+- [EXAMPLES](#examples)
 - [DESCRIPTION](#description)
 - [ENABLE THE REMOTE](#enable-the-remote)
 - [`WWW::vlc::Remote` class](#wwwvlcremote-class)
@@ -20,6 +20,7 @@ WWW::vlc::Remote — Control vlc media player via its Web interface
         - [`.playlist`](#playlist)
         - [`.play`](#play)
         - [`.seek`](#seek)
+        - [`.status`](#status)
         - [`.stop`](#stop)
         - [`.toggle-random`](#toggle-random)
         - [`.toggle-loop`](#toggle-loop)

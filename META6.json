@@ -2,7 +2,7 @@
     "perl"         : "6.c",
     "name"         : "WWW::vlc::Remote",
     "license"      : "Artistic-2.0",
-    "version"      : "1.001007",
+    "version"      : "1.001008",
     "description"  : "Control vlc media player via its Web interface",
     "depends"      : [ "DOM::Tiny", "HTTP::UserAgent", "URI::Encode" ],
     "test-depends" : [ "Test" ],
