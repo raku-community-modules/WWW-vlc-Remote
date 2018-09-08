@@ -76,7 +76,8 @@ Provides programmatic interface to
 
 # ENABLE THE REMOTE
 
-Open up your VLC player, go to `Tools` → `Preferences` → `"Show settings" (all)` (bottom left) → `Interface` → `Main Interfaces` and ensure `"Web"` is checked.
+Open up your VLC player, go to `Tools` → `Preferences` → `"Show settings" (all)` (bottom left) → `Interface` → `Main Interfaces` and ensure `"Web"` is checked. It's possible `"Remote control interface"` needs to be checked as well and it
+happened to me that I had to restart my VLC a couple of times before the interface launched and the module was able to connect.
 
 You can now use `--http-password` command line option to `vlc` to enable
 its Web remote. The password is required. It might be possible to set it in
