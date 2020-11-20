@@ -94,7 +94,7 @@ options.
 
 ### `.new`
 
-```perl6
+```raku
 submethod BUILD (
     Str    :$pass = 'pass',
     Str:D  :$host = 'http://127.0.0.1',
@@ -109,7 +109,7 @@ vlc is listening on.
 
 ### `.empty`
 
-```perl6
+```raku
 method empty(--> WWW::vlc::Remote:D)
 ```
 
@@ -117,7 +117,7 @@ Empty the playlist. Returns the invocant.
 
 ### `.enqueue`
 
-```perl6
+```raku
 method enqueue(Str:D $url --> WWW::vlc::Remote:D)
 ```
 
@@ -126,7 +126,7 @@ a URL to the file on the filesystem or to an online resource.
 
 ### `.enqueue-and-play`
 
-```perl6
+```raku
 method enqueue-and-play(Str:D \url --> WWW::vlc::Remote:D)
 ```
 
@@ -136,7 +136,7 @@ The `$url` can be a URL to the file on the filesystem or to an online resource.
 ### `.delete`
 
 
-```perl6
+```raku
 multi method delete (WWW::vlc::Remote::Track:D $track --> WWW::vlc::Remote::Track:D)
 multi method delete (UInt:D $id --> WWW::vlc::Remote::Track:D)
 ```
@@ -147,7 +147,7 @@ playlist track to delete. Returns the invocant.
 
 ### `.playlist`
 
-```perl6
+```raku
 method playlist(Bool :$skip-meta --> Seq:D)
 ```
 
@@ -168,7 +168,7 @@ playable type of media as meta files.
 
 ### `.play`
 
-```perl6
+```raku
 multi method play (--> WWW::vlc::Remote::Track:D)
 multi method play (WWW::vlc::Remote::Track:D $track --> WWW::vlc::Remote::Track:D)
 multi method play (UInt:D $id --> WWW::vlc::Remote::Track:D)
@@ -183,7 +183,7 @@ playlist item will be played (e.g. can be used after using `.stop`).
 
 ### `.seek`
 
-```perl6
+```raku
 method seek ($val where Str:D|Numeric:D = '0%' --> ::?CLASS:D)
 ```
 
@@ -205,7 +205,7 @@ Using too-large values (e.g. `+220%`) is perfectly acceptable.
 
 ### `.status`
 
-```perl6
+```raku
 method status(--> DOM::Tiny:D)
 ```
 
@@ -214,7 +214,7 @@ Fetches the XML of a bunch of info of the current status and returns it as
 
 ### `.stop`
 
-```perl6
+```raku
 method stop(--> WWW::vlc::Remote::Track:D)
 ```
 
@@ -222,7 +222,7 @@ Causes vlc to stop playing. Returns the invocant.
 
 ### `.toggle-random`
 
-```perl6
+```raku
 method toggle-random(--> WWW::vlc::Remote:D)
 ```
 
@@ -230,7 +230,7 @@ Toggles random playback. Returns the invocant.
 
 ### `.toggle-loop`
 
-```perl6
+```raku
 method toggle-loop(--> WWW::vlc::Remote:D)
 ```
 
@@ -238,7 +238,7 @@ Toggles loop. Returns the invocant.
 
 ### `.toggle-repeat`
 
-```perl6
+```raku
 method toggle-repeat(--> WWW::vlc::Remote:D)
 ```
 
@@ -246,7 +246,7 @@ Toggles repeat. Returns the invocant.
 
 ### `.toggle-fullscreen`
 
-```perl6
+```raku
 method toggle-fullscreen(--> WWW::vlc::Remote:D)
 ```
 
@@ -254,7 +254,7 @@ Toggles fullscreen. Returns the invocant.
 
 ### `.toggle-service-discovery`
 
-```perl6
+```raku
 method toggle-service-discovery(Str:D $val--> WWW::vlc::Remote:D)
 ```
 
@@ -272,7 +272,7 @@ The `$val` argument is the service, which per
 
 ### `.volume`
 
-```perl6
+```raku
 method volume($val where Str:D|Numeric:D --> ::?CLASS:D)
 ```
 
@@ -295,7 +295,7 @@ from by some `WWW::vlc::Remote` methods, such as `.playlist`.
 
 ### `$.vlc`
 
-```perl6
+```raku
 has WWW::vlc::Remote:D $.vlc
 ```
 
@@ -304,7 +304,7 @@ object.
 
 ### `$.uri`
 
-```perl6
+```raku
 has Str:D $.uri
 ```
 
@@ -312,7 +312,7 @@ The URI of this track.
 
 ### `$.name`
 
-```perl6
+```raku
 has Str:D $.name
 ```
 
@@ -320,7 +320,7 @@ The name of this track.
 
 ### `$.id`
 
-```perl6
+```raku
 has UInt:D $.id
 ```
 
@@ -329,7 +329,7 @@ methods, such as `.play`.
 
 ### `$.id`
 
-```perl6
+```raku
 has Int:D $.duration
 ```
 
@@ -340,7 +340,7 @@ track isn't a proper playable item, such as a directory or artwork.
 
 ### `.play`
 
-```perl6
+```raku
 method play(--> WWW::vlc::Remote:D)
 ```
 
@@ -350,7 +350,7 @@ Takes no arguments and causes vlc to play this track. The same as calling
 
 ### `.Str`
 
-```perl6
+```raku
 method Str (--> Str:D)
 ```
 
@@ -361,7 +361,7 @@ If `$.duration` is zero or negative, `$dur` is set to string `N/A`.
 
 ### `.gist`
 
-```perl6
+```raku
 method gist (--> Str:D)
 ```
 
@@ -372,12 +372,12 @@ Calls `.Str` on the invocant and returns the result.
 #### REPOSITORY
 
 Fork this module on GitHub:
-https://github.com/zoffixznet/perl6-WWW-vlc-Remote
+https://github.com/raku-community-modules/WWW-vlc-Remote
 
 #### BUGS
 
 To report bugs or request features, please use
-https://github.com/zoffixznet/perl6-WWW-vlc-Remote/issues
+https://github.com/raku-community-modules/WWW-vlc-Remote/issues
 
 #### AUTHOR
 
